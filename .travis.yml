@@ -8,4 +8,4 @@ install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer install
 
-script: phpunit.sh
+script: bash phpunit.sh
