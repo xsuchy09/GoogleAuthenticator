@@ -5,7 +5,7 @@ Google Authenticator PHP class
 * Author: Petr Suchy, [suchy@wamos.cz](mailto:suchy@wamos.cz)
 * Licensed under the BSD License.
 
-[![Build Status](https://travis-ci.org/xsuchy09/GoogleAuthenticator.png?branch=master)](https://travis-ci.org/xsuchy09/GoogleAuthenticator)
+[![Build Status](https://travis-ci.org/xsuchy09/GoogleAuthenticator.svg?branch=master)](https://travis-ci.org/xsuchy09/GoogleAuthenticator)
 
 Fork from:
 -----
