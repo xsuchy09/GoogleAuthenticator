@@ -1,7 +1,7 @@
 {
-    "name": "phpgangsta/googleauthenticator",
-    "description": "Google Authenticator 2-factor authentication",
-    "version": "1.0.0",
+    "name": "xsuchy09/googleauthenticator",
+    "description": "Google Authenticator 2-factor authentication, fork from phpgangsta/googleauthenticator.",
+    "version": "2.0.0",
     "type": "library",
     "keywords": ["GoogleAuthenticator", "TOTP", "rfc6238"],
     "license": "BSD-4-Clause",
@@ -11,20 +11,28 @@
             "email": "info@phpgangsta.de",
             "homepage": "http://www.phpgangsta.de/",
             "role": "Developer"
+        },
+        {
+            "name": "Petr Suchy",
+            "email": "suchy@wamos.cz",
+            "homepage": "https://www.wamos.cz/",
+            "role": "Developer"
         }
     ],
     "support": {
-        "source": "https://github.com/PHPGangsta/GoogleAuthenticator",
-        "issues": "https://github.com/PHPGangsta/GoogleAuthenticator/issues"
+        "source": "https://github.com/xsuchy09/GoogleAuthenticator",
+        "issues": "https://github.com/xsuchy09/GoogleAuthenticator/issues"
     },
     "require": {
-        "php": ">=5.3"
+        "php": ">=7.2"
     },
-	"autoload": {
-		"classmap": ["PHPGangsta/GoogleAuthenticator.php"]
-	}
+    "autoload": {
+        "psr-4": {
+            "GoogleAuthenticator\\": "src/",
+            "GoogleAuthenticator\\Tests\\": "src/tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    }
 }
-
-
-
-

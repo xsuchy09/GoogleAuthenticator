@@ -1,11 +1,23 @@
 Google Authenticator PHP class
 ==============================
 
+* Copyright (c) 2019, [https://www.wamos.cz](https://www.wamos.cz)
+* Author: Petr Suchy, [suchy@wamos.cz](mailto:suchy@wamos.cz)
+* Licensed under the BSD License.
+
+[![Build Status](https://travis-ci.org/xsuchy09/GoogleAuthenticator.png?branch=master)](https://travis-ci.org/xsuchy09/GoogleAuthenticator)
+
+Fork from:
+-----
+[phpgangsta/googleauthenticator](https://github.com/PHPGangsta/GoogleAuthenticator)
+
+Original copyright info:
 * Copyright (c) 2012-2016, [http://www.phpgangsta.de](http://www.phpgangsta.de)
 * Author: Michael Kliewe, [@PHPGangsta](http://twitter.com/PHPGangsta) and [contributors](https://github.com/PHPGangsta/GoogleAuthenticator/graphs/contributors)
 * Licensed under the BSD License.
 
-[![Build Status](https://travis-ci.org/PHPGangsta/GoogleAuthenticator.png?branch=master)](https://travis-ci.org/PHPGangsta/GoogleAuthenticator)
+Description:
+-----
 
 This PHP class can be used to interact with the Google Authenticator mobile app for 2-factor-authentication. This class
 can generate secrets, generate codes, validate codes and present a QR-Code for scanning the secret. It implements TOTP 
@@ -22,20 +34,20 @@ See following example:
 
 ```php
 <?php
-require_once 'PHPGangsta/GoogleAuthenticator.php';
+require_once 'GoogleAuthenticator/GoogleAuthenticator.php';
 
-$ga = new PHPGangsta_GoogleAuthenticator();
+$ga = new GoogleAuthenticator();
 $secret = $ga->createSecret();
-echo "Secret is: ".$secret."\n\n";
+echo sprintf('Secret is: %s', $secret) . PHP_EOL . PHP_EOL;
 
 $qrCodeUrl = $ga->getQRCodeGoogleUrl('Blog', $secret);
-echo "Google Charts URL for the QR-Code: ".$qrCodeUrl."\n\n";
+echo sprintf('Google Charts URL for the QR-Code: %s', $qrCodeUrl) . PHP_EOL . PHP_EOL;
 
 $oneCode = $ga->getCode($secret);
-echo "Checking Code '$oneCode' and Secret '$secret':\n";
+echo sprintf('Checking Code %s and Secret %s:', $oneCode, $secret) . PHP_EOL;
 
 $checkResult = $ga->verifyCode($secret, $oneCode, 2);    // 2 = 2*30sec clock tolerance
-if ($checkResult) {
+if (true === $checkResult) {
     echo 'OK';
 } else {
     echo 'FAILED';
@@ -56,10 +68,8 @@ Installation:
 
 - Use [Composer](https://getcomposer.org/doc/01-basic-usage.md) to
   install the package
-
-- From project root directory execute following
-
-```composer install```
+  
+```composer require xsuchy09/googleauthenticator```
 
 - [Composer](https://getcomposer.org/doc/01-basic-usage.md) will take care of autoloading
   the library. Just include the following at the top of your file
@@ -69,17 +79,17 @@ Installation:
 Run Tests:
 ----------
 
-- All tests are inside `tests` folder.
-- Execute `composer install` and then run the tests from project root
-  directory
-- Run as `phpunit tests` from the project root directory
+- All tests are inside `src/tests` folder.
+- Execute `composer install` and then run the tests from project root directory.
+- Shell script is prepared - just run `phpunit.sh` from the project root directory.
+- It will generate code coverage report too inside `.phpunit` directory.
 
 
 ToDo:
 -----
-- ??? What do you need?
+- Nothing ... if you need something, [contact me](mailto:suchy@wamos.cz).
 
 Notes:
 ------
 
-If you like this script or have some features to add: contact me, visit my blog, fork this project, send pull requests, you know how it works.
+If you like this script or have some features to add: contact me, visit my webpage, fork this project, send pull requests, you know how it works.

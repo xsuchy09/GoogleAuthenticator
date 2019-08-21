@@ -4,3 +4,4 @@
 # Composer
 composer.lock
 vendor
+/.phpunit/
