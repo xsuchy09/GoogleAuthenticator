@@ -150,8 +150,48 @@ class GoogleAuthenticator
 	 * @param array|null  $params
 	 *
 	 * @return string
+	 *
+	 * @deprecated
+	 * @deprecated 2.0.1
+	 * @deprecated Don't use external servers to generate QR codes with your secret information. Use library (with specific version or fork to don't have security risk) like https://github.com/chillerlan/php-qrcode or https://github.com/endroid/qr-code etc.
+	 * @deprecated Google set its chart api for qr codes as deprecated at all.
 	 */
 	public function getQRCodeGoogleUrl(string $name, string $secret, ?string $title = null, ?array $params = null): string
+	{
+		$qrParams = $this->getQRParams($params);
+		$otpAuthLink = $this->getOtpAuthLink($name, $secret, $title);
+		return sprintf('https://chart.apis.google.com/chart?cht=qr&chs=%dx%d&chl=%s&chld=%s|0', $qrParams['width'], $qrParams['height'], urlencode($otpAuthLink), $qrParams['level']);
+	}
+
+	/**
+	 * Get QR Code from qrserver.com.
+	 *
+	 * @param string      $name
+	 * @param string      $secret
+	 * @param string|null $title
+	 * @param array|null  $params
+	 *
+	 * @return string
+	 *
+	 * @deprecated
+	 * @deprecated 2.0.1
+	 * @deprecated Don't use external servers to generate QR codes with your secret information. Use library (with specific version or fork to don't have security risk) like https://github.com/chillerlan/php-qrcode or https://github.com/endroid/qr-code etc.
+	 */
+	public function getQRCodeQRServerUrl(string $name, string $secret, ?string $title = null, ?array $params = null): string
+	{
+		$qrParams = $this->getQRParams($params);
+		$otpAuthLink = $this->getOtpAuthLink($name, $secret, $title);
+		return sprintf('https://api.qrserver.com/v1/create-qr-code/?data=%s&size=%dx%d&ecc=%s', urlencode($otpAuthLink), $qrParams['width'], $qrParams['height'], $qrParams['level']);
+	}
+
+	/**
+	 * Get params for QR code.
+	 *
+	 * @param array|null $params
+	 *
+	 * @return array
+	 */
+	protected function getQRParams(?array $params = null): array
 	{
 		$qrParams = self::QR_CODE_DEFAULT_PARAMS;
 		if ($params !== null) {
@@ -165,13 +205,25 @@ class GoogleAuthenticator
 				$qrParams['level'] = $params['level'];
 			}
 		}
+		return $qrParams;
+	}
 
-		$urlencoded = urlencode(sprintf('otpauth://totp/%s?secret=%s', $name, $secret));
-		if (true === isset($title)) {
-			$urlencoded .= urlencode(sprintf('&issuer=%s', urlencode($title)));
+	/**
+	 * Get OTP Auth Link.
+	 *
+	 * @param string      $name
+	 * @param string      $secret
+	 * @param string|null $title
+	 *
+	 * @return string
+	 */
+	protected function getOtpAuthLink(string $name, string $secret, ?string $title = null): string
+	{
+		$otpAuthLink = sprintf('otpauth://totp/%s?secret=%s', urlencode($name), urlencode($secret));
+		if ($title !== null && strlen($title) > 0) {
+			$otpAuthLink .= sprintf('&issuer=%s', urlencode($title));
 		}
-
-		return sprintf('https://api.qrserver.com/v1/create-qr-code/?data=%s&size=%dx%d&ecc=%s', $urlencoded, $qrParams['width'], $qrParams['height'], $qrParams['level']);
+		return $otpAuthLink;
 	}
 
 	/**

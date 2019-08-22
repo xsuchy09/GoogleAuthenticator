@@ -37,10 +37,16 @@ See following example:
 require_once 'GoogleAuthenticator/GoogleAuthenticator.php';
 
 $ga = new GoogleAuthenticator();
-$secret = $ga->createSecret();
-echo sprintf('Secret is: %s', $secret) . PHP_EOL . PHP_EOL;
 
-$qrCodeUrl = $ga->getQRCodeGoogleUrl('Blog', $secret);
+$name = 'suchy';
+$secret = $ga->createSecret();
+$title = 'WAMOS.cz';
+
+echo sprintf('Name is: %s', $name) . PHP_EOL;
+echo sprintf('Secret is: %s', $secret) . PHP_EOL;
+echo sprintf('Title is: %s', $title) . PHP_EOL . PHP_EOL;
+
+$qrCodeUrl = $ga->getQRCodeGoogleUrl($name, $secret, $title);
 echo sprintf('Google Charts URL for the QR-Code: %s', $qrCodeUrl) . PHP_EOL . PHP_EOL;
 
 $oneCode = $ga->getCode($secret);
@@ -55,11 +61,13 @@ if (true === $checkResult) {
 ```
 Running the script provides the following output:
 ```
-Secret is: OQB6ZZGYHCPSX4AK
+Name is: suchy
+Secret is: SECRET
+Title is: WAMOS.cz
 
-Google Charts URL for the QR-Code: https://www.google.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth://totp/infoATphpgangsta.de%3Fsecret%3DOQB6ZZGYHCPSX4AK
+Google Charts URL for the QR-Code: https://chart.apis.google.com/chart?cht=qr&chs=200x200&chl=otpauth%3A%2F%2Ftotp%2Fsuchy%3Fsecret%3DSECRET%26issuer%3DWAMOS.cz&chld=M|0
 
-Checking Code '848634' and Secret 'OQB6ZZGYHCPSX4AK':
+Checking Code '123456' and Secret 'SECRET':
 OK
 ```
 
@@ -83,6 +91,19 @@ Run Tests:
 - Execute `composer install` and then run the tests from project root directory.
 - Shell script is prepared - just run `phpunit.sh` from the project root directory.
 - It will generate code coverage report too inside `.phpunit` directory.
+
+
+Security recommendation:
+-----
+Don't use methods `GoogleAuthenticator::getQRCodeGoogleUrl` and `GoogleAuthenticator::getQRCodeQRServerUrl`.
+It is just for sample. Don't share your secret with third party. Use 
+your own QR code generation. You can use libraries like:
+- https://github.com/chillerlan/php-qrcode
+- https://github.com/endroid/qr-code
+
+But don't believe libraries of third parties too. Do security audit of 
+third party library and make your own fork or don't update these 
+libraries without checking the security of update. 
 
 
 ToDo:

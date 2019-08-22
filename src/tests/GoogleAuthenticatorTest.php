@@ -93,12 +93,12 @@ final class GoogleAuthenticatorTest extends TestCase
 		parse_str($urlParts['query'], $queryStringArray);
 
 		$this->assertEquals($urlParts['scheme'], 'https');
-		$this->assertEquals($urlParts['host'], 'api.qrserver.com');
-		$this->assertEquals($urlParts['path'], '/v1/create-qr-code/');
+		$this->assertEquals($urlParts['host'], 'chart.apis.google.com');
+		$this->assertEquals($urlParts['path'], '/chart');
 
 		$expectedChl = 'otpauth://totp/' . $name . '?secret=' . $secret;
 
-		$this->assertEquals($queryStringArray['data'], $expectedChl);
+		$this->assertEquals($queryStringArray['chl'], $expectedChl);
 	}
 
 	public function testGetQRCodeGoogleUrlReturnsCorrectUrlWithParams(): void
@@ -113,6 +113,49 @@ final class GoogleAuthenticatorTest extends TestCase
 			'level' => 'L'
 		];
 		$url = self::$googleAuthenticator->getQRCodeGoogleUrl($name, $secret, $title, $params);
+		$urlParts = parse_url($url);
+
+		parse_str($urlParts['query'], $queryStringArray);
+
+		$this->assertEquals($urlParts['scheme'], 'https');
+		$this->assertEquals($urlParts['host'], 'chart.apis.google.com');
+		$this->assertEquals($urlParts['path'], '/chart');
+
+		$expectedChl = sprintf('otpauth://totp/%s?secret=%s&issuer=%s', $name, $secret, $title);
+
+		$this->assertEquals($expectedChl, $queryStringArray['chl']);
+	}
+
+	public function testGetQRCodeQRServerUrlReturnsCorrectUrl(): void
+	{
+		$secret = 'SECRET';
+		$name = 'Test';
+		$url = self::$googleAuthenticator->getQRCodeQRServerUrl($name, $secret);
+		$urlParts = parse_url($url);
+
+		parse_str($urlParts['query'], $queryStringArray);
+
+		$this->assertEquals($urlParts['scheme'], 'https');
+		$this->assertEquals($urlParts['host'], 'api.qrserver.com');
+		$this->assertEquals($urlParts['path'], '/v1/create-qr-code/');
+
+		$expectedChl = 'otpauth://totp/' . $name . '?secret=' . $secret;
+
+		$this->assertEquals($queryStringArray['data'], $expectedChl);
+	}
+
+	public function testGetQRCodeQRServerUrlReturnsCorrectUrlWithParams(): void
+	{
+		// with params
+		$secret = 'SECRET';
+		$name = 'Test';
+		$title = 'Title';
+		$params = [
+			'width' => 300,
+			'height' => 300,
+			'level' => 'L'
+		];
+		$url = self::$googleAuthenticator->getQRCodeQRServerUrl($name, $secret, $title, $params);
 		$urlParts = parse_url($url);
 
 		parse_str($urlParts['query'], $queryStringArray);
