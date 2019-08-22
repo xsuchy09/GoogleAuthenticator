@@ -1,7 +1,2 @@
-# PHPStorm
-.idea
-
-# Composer
-composer.lock
-vendor
 /.phpunit/
+vendor
