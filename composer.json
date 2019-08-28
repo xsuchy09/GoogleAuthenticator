@@ -24,8 +24,7 @@
         "issues": "https://github.com/xsuchy09/GoogleAuthenticator/issues"
     },
     "require": {
-        "php": ">=7.2",
-        "chillerlan/php-qrcode": "^3.1"
+        "php": ">=7.2"
     },
     "autoload": {
         "psr-4": {
