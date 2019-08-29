@@ -217,13 +217,27 @@ class GoogleAuthenticator
 	 *
 	 * @return string
 	 */
-	protected function getOtpAuthLink(string $name, string $secret, ?string $title = null): string
+	public function getOtpAuthLink(string $name, string $secret, ?string $title = null): string
 	{
 		$otpAuthLink = sprintf('otpauth://totp/%s?secret=%s', urlencode($name), urlencode($secret));
 		if ($title !== null && strlen($title) > 0) {
 			$otpAuthLink .= sprintf('&issuer=%s', urlencode($title));
 		}
 		return $otpAuthLink;
+	}
+
+	/**
+	 * Alias of getOtpAuthLink.
+	 *
+	 * @param string      $name
+	 * @param string      $secret
+	 * @param string|null $title
+	 *
+	 * @return string
+	 */
+	public function getDataToRender(string $name, string $secret, ?string $title = null): string
+	{
+		return $this->getOtpAuthLink($name, $secret, $title);
 	}
 
 	/**

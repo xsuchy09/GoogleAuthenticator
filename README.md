@@ -46,6 +46,10 @@ echo sprintf('Name is: %s', $name) . PHP_EOL;
 echo sprintf('Secret is: %s', $secret) . PHP_EOL;
 echo sprintf('Title is: %s', $title) . PHP_EOL . PHP_EOL;
 
+$dataToRender = $ga->getOtpAuthLink($name, $secret, $title); // or getDataToRender method - just alis
+echo sprintf('Data to render: %s', $dataToRender) . PHP_EOL . PHP_EOL;
+
+// don't use this, don't share you security with third parties
 $qrCodeUrl = $ga->getQRCodeGoogleUrl($name, $secret, $title);
 echo sprintf('Google Charts URL for the QR-Code: %s', $qrCodeUrl) . PHP_EOL . PHP_EOL;
 
@@ -64,6 +68,8 @@ Running the script provides the following output:
 Name is: suchy
 Secret is: SECRET
 Title is: WAMOS.cz
+
+Data to render: otpauth://totp/suchy?secret=SECRET&issuer=WAMOS.cz
 
 Google Charts URL for the QR-Code: https://chart.apis.google.com/chart?cht=qr&chs=200x200&chl=otpauth%3A%2F%2Ftotp%2Fsuchy%3Fsecret%3DSECRET%26issuer%3DWAMOS.cz&chld=M|0
 
